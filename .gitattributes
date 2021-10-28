@@ -1,0 +1,9 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+*.pdf -text
+/.gitattributes export-ignore
+/LICENSE export-ignore
+/.gitignore export-ignore
+/dists export-ignore
+/release.bat export-ignore
+*.code-workspace export-ignore

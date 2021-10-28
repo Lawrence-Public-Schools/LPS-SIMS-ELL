@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html>   
+<!-- start right frame -->
+<head>
+<title>SIMS EL Data Elements</title>
+~[wc:commonscripts]
+<link href="/images/css/screen.css" rel="stylesheet" media="screen">
+<link href="/images/css/print.css" rel="stylesheet" media="print">
+</head>
+<body>
+	<form action="/admin/changesrecorded.white.html" method="POST" onsubmit="return checkDefaultInfo();">
+	~[wc:admin_header_frame_css]<!-- breadcrumb start -->
+	<a href="/admin/home.html" target="_top">Start Page</a> &gt;
+	<a href="/admin/students/home.html?selectstudent=nosearch" target="_top">Student Selection</a> &gt;
+	<a href="/admin/students/ellsims.html?frn=~(studentfrn)"> SIMS EL Data Elements</a> &gt;
+	SIMS EL Data Elements<!-- breadcrumb end -->~[wc:admin_navigation_frame_css]
+	~[wc:title_student_begin_css]SIMS EL Data Elements~[wc:title_student_end_css]
+	<!-- start of content and bounding box -->
+	<div class="box-round">
+	<table border="0" cellspacing="0" cellpadding="4">
+		<tr class="~[evenoddrow]">
+    	<td class="bold">EL Code</td>
+    	<td><select name="[students.U_Students_Extension]EL">
+				<option value=""></option>
+				<option value="No">No</option>
+				<option value="No-P">No-P</option>
+				<option value="Yes">Yes</option>
+				<option value="Yes-p">Yes-P</option>
+				<option value="Ref">Referral</option>
+				<option value="Frmr">Former</option>
+			</select></td>
+		</tr>
+		<tr>
+    	<tr class="~[evenoddrow]">
+    		<td class="bold">FLEP Date</td>
+    		<td>~([01]U_STUDENTS_EXTENSION.FLEPDate)</td>
+			</tr>
+    	<tr class="~[evenoddrow]">
+        <td class="bold">DOE021</td>
+        <td class="bold" title="[Students]MA_LEPinUS">LEP Students in their First Year in U.S. Schools</td>
+    	</tr>
+    	<tr class="~[evenoddrow;maintain]">
+        <td>&nbsp;</td>
+        <td><select name="[Students]MA_LEPinUS">
+        	<option value="00">Does not apply (00)</option>
+        	<option value="01">LEP student in first year of U.S. schooling (01)</option>
+        	<option value="02">LEP student not in first year of U.S. schooling (02)</option>
+        </select><br>(if not defined, "00" is extracted)</td>
+    	</tr>
+     	<tr class="~[evenoddrow]">
+        <td class="bold">DOE024</td>
+        <td class="bold" title="[Students]MA_HomeLang">First (Native) Language</td>
+    	</tr>
+    	<tr class="~[evenoddrow;maintain]" id="HomeLang17_18">
+        <td>&nbsp;</td>
+        <td>
+					<div class="ui-widget">
+						<input  name="[Students]MA_HomeLang"  id="MA_Lang1"value=""  type="hidden" maxlength="3" size="4">
+						<input id="languagecd_autocomplete" size="45" type="text" value="">
+					</div>
+				</td>
+    	</tr>
+    	<tr class="~[evenoddrow]">
+				<td class="bold">DOE025</td>
+				<td class="bold" title="[Students]MA_EngProficiency">Limited English Proficiency</td>
+			</tr>
+			<tr class="~[evenoddrow;maintain]">
+				<td>&nbsp;</td>
+				<td><select name="[Students]MA_EngProficiency">
+					<option value="00">Student who is capable of performing ordinary classwork in English (00)</option>
+					<option value="01">Student who is not capable of performing ordinary classwork in English (01)</option>
+				</select><br>(if not defined, "00" is extracted)</td>
+			</tr>
+			<tr class="~[evenoddrow]">
+				<td class="bold">DOE026</td>
+				<td class="bold" title="[Students]MA_BilingualStatus">English Language Learners Program Status</td>
+			</tr>
+			<tr class="~[evenoddrow;maintain]">
+				<td>&nbsp;</td>
+				<td><select name="[Students]MA_BilingualStatus" id="BilingualStatus" value="">
+        	~[if.ModAccess]
+          	~[tlist_sql;
+              SELECT
+                code,
+                className,
+                selected,
+                disabled,
+                description
+              FROM
+               TABLE(MA_PARAMS.getDropDownHTML('MA_XX','BilingualStat','~([Students]MA_BilingualStatus)',~(curtermid),'BU'));
+       			]<option value='~(code;t)' class='~(className;t)' ~(selected;t) ~(disabled;t)>~(description;t)</option>[/tlist_sql]
+        	[else]
+        		~[tlist_sql;
+            	SELECT description
+            	FROM PS_COMMON_CODE WHERE PS_GROUP='MA_XX' AND CATEGORY  ='BilingualStat'
+            	AND code = '~([Students]MA_BilingualStatus)']
+        			~(description)
+            [/tlist_sql]
+    			[/if]
+    		</select><br>(if not defined, "00" is extracted)</td>
+			</tr>
+			<tr class="~[evenoddrow]">
+				<td class="bold">DOE028</td>
+				<td class="bold" title="[Students.S_STU_NCEA_X]SealofBiliteracy">Seal of Biliteracy</td>
+			</tr>
+			<tr class="~[evenoddrow;maintain]">
+    		<td>&nbsp;</td>
+    		<td><select name="[Students.S_STU_X]SealofBiliteracy" id="SealofBiliteracy" value="">
+        	~[if.ModAccess]
+          	~[tlist_sql;
+            	SELECT
+              	code,
+              	className,
+              	selected,
+              	disabled,
+              	description
+            	FROM
+              	TABLE(MA_PARAMS.getDropDownHTML('COMMON','SealofBilit','~([Students.S_STU_X]SealofBiliteracy)',~(curtermid),'U'));
+       			]<option value='~(code;t)' class='~(className;t)' ~(selected;t) ~(disabled;t)>~(description;t)</option>[/tlist_sql]
+        	[else]
+        		~[tlist_sql;
+            	SELECT description
+            	FROM PS_COMMON_CODE WHERE PS_GROUP='COMMON' AND CATEGORY  ='SealofBilit'
+            	AND code = '~([Students.S_STU_X]SealofBiliteracy)']
+        			~(description)
+        		[/tlist_sql]
+    			[/if]    
+        </select></td>
+			</tr>
+			<tr class="~[evenoddrow]">
+				<td class="bold">DOE041</td>
+				<td class="bold" title="[Students.S_MA_STU_SIMS_X]ELL_SLIFE">ELL SLIFE - English Language Learner Student with Limited or Interrupted Formal Education</td>
+			</tr>
+			<tr class="~[evenoddrow;maintain]">
+				<td>&nbsp;</td>
+				<td><select name="[Students.S_MA_STU_SIMS_X]ELL_SLIFE">
+					<option value="00">No (00)</option>
+					<option value="01">Yes (01)</option>
+				</select><br>(if not defined, "00" is extracted)</td>
+			</tr>
+    </table>
+    <div class="button-row">
+			<input type="hidden" name="ac" value="prim">~[submitbutton]
+		</div>
+	</div>
+<!-- end of content of bounding box -->
+~[wc:admin_footer_frame_css]
+</form>
+<!-- Loading simple scripts in separate file to save space, however I am
+	    not sure if PowerSchool will read Data Access Tags from .js files
+		  so loading those scripts here -->
+<script src="/admin/javascript/LPS-ell_sims.js"></script>
+<script type="text/javascript">
+window.onload = function() {
+	var commanLang = "~([Students]MA_HomeLang)";
+	if (~(curyearid) >= 27) {
+		var nces_code = '';
+		var description = '';
+		~[tlist_sql;
+			select  code as cd, description as languagecodedesc from ps_common_code 
+			where category='nceslangcode' and code='~([Students]MA_HomeLang)';]
+			nces_code = '~(cd;t)';
+			description = '~(languagecodedesc;t)';
+		[/tlist_sql]
+		
+		if (nces_code != "" && description != "") { $j("#languagecd_autocomplete").val(description); }
+		$j("#HomeLang16_17").hide();
+		$j("#defaultMsg_container").html('<div class="defaultMsg">(if not defined, "eng" is extracted)<br /></div>');
+		
+		function languagecodelist() {
+			var languagecdlist = new Array();
+			var languagecdlist = [ 
+				~[tlist_sql;
+					select description as languagecodedesc, code as cd, description as cddesc from ps_common_code 
+					where ps_group='MA_XX' and category='nceslangcode' order by cddesc;]
+					{ label : "~(languagecodedesc)", value : "~(cd)" }, 
+				[/tlist_sql] 
+			{label:"", value:""}];
+			return languagecdlist;
+		}
+
+		$j(function() {
+			var languagecd = new Array();
+			languagecd = languagecodelist();
+			var jquiMajor = parseInt($j.ui.version.split('.')[0]),
+			jquiMinor = parseInt($j.ui.version.split('.')[1]),
+			autoCompleteStr = 'ui-autocomplete',
+			autoCompleteItemStr = 'ui-autocomplete-item';
+			
+			if (jquiMajor == 1 && jquiMinor < 10) {
+				autoCompleteStr = 'autocomplete';
+				autoCompleteItemStr = 'item.autocomplete';
+			}
+
+			$j( "#languagecd_autocomplete" ).autocomplete({
+				minLength: 0,
+				source: languagecd,
+				select: function( event, ui ) {
+					$j( "#languagecd_autocomplete" ).val( ui.item.label );
+					$j( "#MA_Lang1" ).val( ui.item.value );
+					return false;
+				}
+			}).data( autoCompleteStr )
+			._renderItem = function( ul, item ) {
+				return $j( "<li></li>" ).data( autoCompleteItemStr, item ).append( "<a>" + item.label + "</a>" ).appendTo( ul );
+			};
+		
+		});
+		switch(commanLang) {
+			case "":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='eng';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "007":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='spa';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "110":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='afr';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "115":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='alb';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "125":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='tut';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "130":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='amh';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "135":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='ara';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "140":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='arm';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "145":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='aym';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "150":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='ind';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "155":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='bam';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "160":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='bnt';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "165":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='baq';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "170":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='ben';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "175":
+				$j('#MA_Lang option[value="ber"]').attr("selected", "selected");
+				break;
+			case "180":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='bre';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "185":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='bul';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "190":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='bur';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "205":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='cat';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "210":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='cau';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "225":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='hat';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "002":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='chi';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "230":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='cpp';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "235":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='cze';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "240":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='dan';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "247":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='din';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "250":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='div';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "260":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='dut';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "265":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='dzo';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "267":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='eng';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "270":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='fan';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "280":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='fij';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "290":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='fin';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "003":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='fre';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "310":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='fry';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "317":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='gaa';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "320":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='glg';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "330":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='ger';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "335":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='gil';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "342":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='grb';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "004":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='gre';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "345":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='grn';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "347":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='guj';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "360":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='hau';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "365":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='heb';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "370":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='hin';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "375":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='hmn';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "380":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='hun';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "385":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='ibo';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "390":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='ice';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "400":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='ine';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "405":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='gle';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "005":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='ita';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "415":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='jpn';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "420":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='jav';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+			case "422":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='jrb';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "423":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='kas';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "430":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='khm';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "435":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='kin';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "445":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='kor';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "446":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='kpe';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "452":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='kro';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "460":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='kru';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "455":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='kur';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "470":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='lao';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "480":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='lat';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "483":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='lav';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "487":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='lit';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "495":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='ltz';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "501":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='mac';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "505":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='mlg';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "510":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='may';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "515":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='mlt';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "522":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='man';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "525":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='mao';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "542":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='men';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "551":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='mos';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "560":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='nah';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "580":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='nep';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "585":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='new';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "595":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='nor';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "600":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='paa';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "610":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='per';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "620":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='phi';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "630":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='pol';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "006":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='por';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "633":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='pan';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "645":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='que';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "655":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='rum';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "665":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='rus';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "670":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='smo';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "700":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='sna';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "707":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='snd';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "725":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='slo';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "735":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='smo';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "750":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='swa';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "755":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='swe';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "759":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='tgl';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "765":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='tam';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "767":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='tel';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "770":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='tha';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "775":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='tib';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "783":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='tir';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "785":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='ton';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "790":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='ota';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "795":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='tvl';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "797":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='twi';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "800":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='ukr';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "810":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='urd';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "815":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='uzb';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "825":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='vie';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "835":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='wel';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "845":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='yid';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			case "850":
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='yor';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+			default:
+				~[tlist_sql;
+					select  code as cd, description as languagecodedesc from ps_common_code 
+					where category='nceslangcode' and code='eng';]
+					nces_code = '~(cd;t)';
+					description = '~(languagecodedesc;t)';
+				[/tlist_sql]
+				break;
+		}
+		$j("#MA_Lang1").val(nces_code);
+		$j("#languagecd_autocomplete").val(description);
+	} else if (~(curyearid) == 26) { 
+		yearIdEqual26(commanLang);
+	} else if (~(curyearid) < 26) {
+		yearIdLessThan26();
+	}
+}
+</script>
+</body>
+</html><!-- end right frame -->
