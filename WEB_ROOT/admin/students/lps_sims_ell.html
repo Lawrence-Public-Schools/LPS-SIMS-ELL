@@ -1,3 +1,8 @@
+<!----------------------------------------------------------
+| FileName: 'lps_sims_ell.html'
+| Description: State SIMS data for EL students
+| Author: Benjamin Houle
+---------------------------------------------------------->
 <!DOCTYPE html>
 <html>   
 <!-- start right frame -->
@@ -6,6 +11,7 @@
 ~[wc:commonscripts]
 <link href="/images/css/screen.css" rel="stylesheet" media="screen">
 <link href="/images/css/print.css" rel="stylesheet" media="print">
+<link href="/admin/styles/lps_sims_ell.css" rel="stylesheet">
 </head>
 <body>
 	<form action="/admin/changesrecorded.white.html" method="POST" onsubmit="return checkDefaultInfo();">
@@ -148,7 +154,7 @@
 <!-- Loading simple scripts in separate file to save space, however I am
 	    not sure if PowerSchool will read Data Access Tags from .js files
 		  so loading those scripts here -->
-<script src="/admin/javascript/LPS-ell_sims.js"></script>
+<script src="/admin/javascript/lps_sims_ell.js"></script>
 <script type="text/javascript">
 window.onload = function() {
 	var commanLang = "~([Students]MA_HomeLang)";
