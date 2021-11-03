@@ -30,119 +30,118 @@
 				<option value="Frmr">Former</option>
 			</select></td>
 		</tr>
-		<tr>
-    	<tr class="~[evenoddrow]">
-    		<td class="bold">FLEP Date</td>
-    		<td>~([01]U_STUDENTS_EXTENSION.FLEPDate)</td>
-			</tr>
-    	<tr class="~[evenoddrow]">
-        <td class="bold">DOE021</td>
-        <td class="bold" title="[Students]MA_LEPinUS">LEP Students in their First Year in U.S. Schools</td>
-    	</tr>
-    	<tr class="~[evenoddrow;maintain]">
-        <td>&nbsp;</td>
-        <td><select name="[Students]MA_LEPinUS">
-        	<option value="00">Does not apply (00)</option>
-        	<option value="01">LEP student in first year of U.S. schooling (01)</option>
-        	<option value="02">LEP student not in first year of U.S. schooling (02)</option>
-        </select><br>(if not defined, "00" is extracted)</td>
-    	</tr>
-     	<tr class="~[evenoddrow]">
-        <td class="bold">DOE024</td>
-        <td class="bold" title="[Students]MA_HomeLang">First (Native) Language</td>
-    	</tr>
-    	<tr class="~[evenoddrow;maintain]" id="HomeLang17_18">
-        <td>&nbsp;</td>
-        <td>
-					<div class="ui-widget">
-						<input  name="[Students]MA_HomeLang"  id="MA_Lang1"value=""  type="hidden" maxlength="3" size="4">
-						<input id="languagecd_autocomplete" size="45" type="text" value="">
-					</div>
-				</td>
-    	</tr>
-    	<tr class="~[evenoddrow]">
-				<td class="bold">DOE025</td>
-				<td class="bold" title="[Students]MA_EngProficiency">Limited English Proficiency</td>
-			</tr>
-			<tr class="~[evenoddrow;maintain]">
-				<td>&nbsp;</td>
-				<td><select name="[Students]MA_EngProficiency">
-					<option value="00">Student who is capable of performing ordinary classwork in English (00)</option>
-					<option value="01">Student who is not capable of performing ordinary classwork in English (01)</option>
-				</select><br>(if not defined, "00" is extracted)</td>
-			</tr>
-			<tr class="~[evenoddrow]">
-				<td class="bold">DOE026</td>
-				<td class="bold" title="[Students]MA_BilingualStatus">English Language Learners Program Status</td>
-			</tr>
-			<tr class="~[evenoddrow;maintain]">
-				<td>&nbsp;</td>
-				<td><select name="[Students]MA_BilingualStatus" id="BilingualStatus" value="">
-        	~[if.ModAccess]
-          	~[tlist_sql;
-              SELECT
-                code,
-                className,
-                selected,
-                disabled,
-                description
-              FROM
-               TABLE(MA_PARAMS.getDropDownHTML('MA_XX','BilingualStat','~([Students]MA_BilingualStatus)',~(curtermid),'BU'));
-       			]<option value='~(code;t)' class='~(className;t)' ~(selected;t) ~(disabled;t)>~(description;t)</option>[/tlist_sql]
-        	[else]
-        		~[tlist_sql;
-            	SELECT description
-            	FROM PS_COMMON_CODE WHERE PS_GROUP='MA_XX' AND CATEGORY  ='BilingualStat'
-            	AND code = '~([Students]MA_BilingualStatus)']
-        			~(description)
-            [/tlist_sql]
-    			[/if]
-    		</select><br>(if not defined, "00" is extracted)</td>
-			</tr>
-			<tr class="~[evenoddrow]">
-				<td class="bold">DOE028</td>
-				<td class="bold" title="[Students.S_STU_NCEA_X]SealofBiliteracy">Seal of Biliteracy</td>
-			</tr>
-			<tr class="~[evenoddrow;maintain]">
-    		<td>&nbsp;</td>
-    		<td><select name="[Students.S_STU_X]SealofBiliteracy" id="SealofBiliteracy" value="">
-        	~[if.ModAccess]
-          	~[tlist_sql;
-            	SELECT
-              	code,
-              	className,
-              	selected,
-              	disabled,
-              	description
-            	FROM
-              	TABLE(MA_PARAMS.getDropDownHTML('COMMON','SealofBilit','~([Students.S_STU_X]SealofBiliteracy)',~(curtermid),'U'));
-       			]<option value='~(code;t)' class='~(className;t)' ~(selected;t) ~(disabled;t)>~(description;t)</option>[/tlist_sql]
-        	[else]
-        		~[tlist_sql;
-            	SELECT description
-            	FROM PS_COMMON_CODE WHERE PS_GROUP='COMMON' AND CATEGORY  ='SealofBilit'
-            	AND code = '~([Students.S_STU_X]SealofBiliteracy)']
-        			~(description)
-        		[/tlist_sql]
-    			[/if]    
-        </select></td>
-			</tr>
-			<tr class="~[evenoddrow]">
-				<td class="bold">DOE041</td>
-				<td class="bold" title="[Students.S_MA_STU_SIMS_X]ELL_SLIFE">ELL SLIFE - English Language Learner Student with Limited or Interrupted Formal Education</td>
-			</tr>
-			<tr class="~[evenoddrow;maintain]">
-				<td>&nbsp;</td>
-				<td><select name="[Students.S_MA_STU_SIMS_X]ELL_SLIFE">
-					<option value="00">No (00)</option>
-					<option value="01">Yes (01)</option>
-				</select><br>(if not defined, "00" is extracted)</td>
-			</tr>
-    </table>
-    <div class="button-row">
-			<input type="hidden" name="ac" value="prim">~[submitbutton]
-		</div>
+		<tr class="~[evenoddrow]">
+			<td class="bold">FLEP Date</td>
+			<td>~([01]U_STUDENTS_EXTENSION.FLEPDate)</td>
+		</tr>
+		<tr class="~[evenoddrow]">
+			<td class="bold">DOE021</td>
+			<td class="bold" title="[Students]MA_LEPinUS">LEP Students in their First Year in U.S. Schools</td>
+		</tr>
+		<tr class="~[evenoddrow;maintain]">
+			<td>&nbsp;</td>
+			<td><select name="[Students]MA_LEPinUS">
+				<option value="00">Does not apply (00)</option>
+				<option value="01">LEP student in first year of U.S. schooling (01)</option>
+				<option value="02">LEP student not in first year of U.S. schooling (02)</option>
+			</select><br>(if not defined, "00" is extracted)</td>
+		</tr>
+		<tr class="~[evenoddrow]">
+			<td class="bold">DOE024</td>
+			<td class="bold" title="[Students]MA_HomeLang">First (Native) Language</td>
+		</tr>
+		<tr class="~[evenoddrow;maintain]" id="HomeLang17_18">
+			<td>&nbsp;</td>
+			<td>
+				<div class="ui-widget">
+					<input  name="[Students]MA_HomeLang"  id="MA_Lang1"value=""  type="hidden" maxlength="3" size="4">
+					<input id="languagecd_autocomplete" size="45" type="text" value="">
+				</div>
+			</td>
+		</tr>
+		<tr class="~[evenoddrow]">
+			<td class="bold">DOE025</td>
+			<td class="bold" title="[Students]MA_EngProficiency">Limited English Proficiency</td>
+		</tr>
+		<tr class="~[evenoddrow;maintain]">
+			<td>&nbsp;</td>
+			<td><select name="[Students]MA_EngProficiency">
+				<option value="00">Student who is capable of performing ordinary classwork in English (00)</option>
+				<option value="01">Student who is not capable of performing ordinary classwork in English (01)</option>
+			</select><br>(if not defined, "00" is extracted)</td>
+		</tr>
+		<tr class="~[evenoddrow]">
+			<td class="bold">DOE026</td>
+			<td class="bold" title="[Students]MA_BilingualStatus">English Language Learners Program Status</td>
+		</tr>
+		<tr class="~[evenoddrow;maintain]">
+			<td>&nbsp;</td>
+			<td><select name="[Students]MA_BilingualStatus" id="BilingualStatus" value="">
+				~[if.ModAccess]
+					~[tlist_sql;
+						SELECT
+							code,
+							className,
+							selected,
+							disabled,
+							description
+						FROM
+							TABLE(MA_PARAMS.getDropDownHTML('MA_XX','BilingualStat','~([Students]MA_BilingualStatus)',~(curtermid),'BU'));
+					]<option value='~(code;t)' class='~(className;t)' ~(selected;t) ~(disabled;t)>~(description;t)</option>[/tlist_sql]
+				[else]
+					~[tlist_sql;
+						SELECT description
+						FROM PS_COMMON_CODE WHERE PS_GROUP='MA_XX' AND CATEGORY  ='BilingualStat'
+						AND code = '~([Students]MA_BilingualStatus)']
+						~(description)
+					[/tlist_sql]
+				[/if]
+			</select><br>(if not defined, "00" is extracted)</td>
+		</tr>
+		<tr class="~[evenoddrow]">
+			<td class="bold">DOE028</td>
+			<td class="bold" title="[Students.S_STU_NCEA_X]SealofBiliteracy">Seal of Biliteracy</td>
+		</tr>
+		<tr class="~[evenoddrow;maintain]">
+			<td>&nbsp;</td>
+			<td><select name="[Students.S_STU_X]SealofBiliteracy" id="SealofBiliteracy" value="">
+				~[if.ModAccess]
+					~[tlist_sql;
+						SELECT
+							code,
+							className,
+							selected,
+							disabled,
+							description
+						FROM
+							TABLE(MA_PARAMS.getDropDownHTML('COMMON','SealofBilit','~([Students.S_STU_X]SealofBiliteracy)',~(curtermid),'U'));
+					]<option value='~(code;t)' class='~(className;t)' ~(selected;t) ~(disabled;t)>~(description;t)</option>[/tlist_sql]
+				[else]
+					~[tlist_sql;
+						SELECT description
+						FROM PS_COMMON_CODE WHERE PS_GROUP='COMMON' AND CATEGORY  ='SealofBilit'
+						AND code = '~([Students.S_STU_X]SealofBiliteracy)']
+						~(description)
+					[/tlist_sql]
+				[/if]    
+			</select></td>
+		</tr>
+		<tr class="~[evenoddrow]">
+			<td class="bold">DOE041</td>
+			<td class="bold" title="[Students.S_MA_STU_SIMS_X]ELL_SLIFE">ELL SLIFE - English Language Learner Student with Limited or Interrupted Formal Education</td>
+		</tr>
+		<tr class="~[evenoddrow;maintain]">
+			<td>&nbsp;</td>
+			<td><select name="[Students.S_MA_STU_SIMS_X]ELL_SLIFE">
+				<option value="00">No (00)</option>
+				<option value="01">Yes (01)</option>
+			</select><br>(if not defined, "00" is extracted)</td>
+		</tr>
+  </table>
+  <div class="button-row">
+		<input type="hidden" name="ac" value="prim">~[submitbutton]
 	</div>
+</div>
 <!-- end of content of bounding box -->
 ~[wc:admin_footer_frame_css]
 </form>
@@ -174,9 +173,10 @@ window.onload = function() {
 					select description as languagecodedesc, code as cd, description as cddesc from ps_common_code 
 					where ps_group='MA_XX' and category='nceslangcode' order by cddesc;]
 					{ label : "~(languagecodedesc)", value : "~(cd)" }, 
-				[/tlist_sql] 
-			{label:"", value:""}];
-			return languagecdlist;
+				[/tlist_sql]
+			{label:"", value:""}
+		];
+		return languagecdlist;
 		}
 
 		$j(function() {
