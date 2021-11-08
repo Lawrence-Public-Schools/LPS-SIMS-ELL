@@ -3,4 +3,17 @@
 | Description: JavaScript for LPS-SIMS-ELL plugin
 | Author: Benjamin Houle
 ----------------------------------------------------------*/
-PowerSchool SIMS for ELL students
+#LPS-ELHeader.expanded {
+  background-color: rgb(163, 191, 204);
+}
+#LPS-ELHeader.collapsed {
+  background-color: rgb(237, 237, 237);
+}
+#LPS-ELLinks {
+  flex: 0 0 auto; 
+}
+
+div.lps-row {
+  display: flex;
+  flex-direction: row;
+}
