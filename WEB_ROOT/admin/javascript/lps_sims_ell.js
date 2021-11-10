@@ -3,6 +3,7 @@
 | Description: PowerSchool SIMS for ELL students
 | Author: Benjamin Houle
 ----------------------------------------------------------*/
+// FILE CURRENTLY NOT USED, ATTEMPTING TO MOVE JAVASCRIPT OVER FROM HTML FILE
 // Create lang-code array, because PowerSchool didn't
 var langArr = [
   [   "", 'eng'],["002", "chi"],["003", "fre"],["004", "gre"],["005", "ita"],["007", "spa"],
@@ -35,6 +36,7 @@ var langArr = [
   ["850", "yor"],
 ];
 
+// PowerSchool doesn't support tlist_sql in .js files?
 function yearIdEqual26(lang) {
   $j("#HomeLang16_17").show();
   $j("#HomeLang17_18").hide();
@@ -44,13 +46,13 @@ function yearIdEqual26(lang) {
   $j('#MA_Lang option[value="' + langCode + '"]').attr("selected", "selected");
   $j("#defaultMsg_container").html('<div class="defaultMsg">(if not defined, "267" is extracted)<br /></div>');
 }
-  
 function yearIdLessThan26() {
   $j("#defaultMsg_container").html('<div class="defaultMsg">(if not defined, "267" is extracted)<br /></div>');
   $j("#HomeLang16_17").show();
   $j("#HomeLang17_18").hide();
 }
 
+// Data Validation
 function checkDefaultInfo() {
   if (document.getElementById('enrollstatus').value == "04" && (
     document.getElementById('futureplans').value == "500" || 
@@ -68,13 +70,15 @@ function checkDefaultInfo() {
     closeLoading();
     return false;
   }
-  function checkStateStuNum(ele) {
-    if (isNaN(ele.value)) {
-      document.getElementById('errormessage').innerHTML="SASID must contain 10 numeric characters (0-9)";
-      ele.value="";
-    } else if (ele.value.length < 10) {
-      document.getElementById('errormessage').innerHTML="SASID must contain 10 numeric characters (0-9)";
-    } else { document.getElementById('errormessage').innerHTML=""; }
+}
+function checkStateStuNum(ele) {
+  if (isNaN(ele.value)) {
+    document.getElementById('errormessage').innerHTML="SASID must contain 10 numeric characters (0-9)";
+    ele.value="";
+  } else if (ele.value.length < 10) {
+    document.getElementById('errormessage').innerHTML="SASID must contain 10 numeric characters (0-9)";
+  } else {
+    document.getElementById('errormessage').innerHTML="";
   }
   return false;
 }

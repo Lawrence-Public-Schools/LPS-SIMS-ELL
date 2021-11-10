@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<plugin xmlns="http://plugin.powerschool.pearson.com"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation='http://plugin.powerschool.pearson.com plugin.xsd'
-        name="LPS ELL SIMS"
-        version="1.0"
-        description="State SIMS reporting for ELL students">
-    <publisher name="Benjamin Houle">
+<plugin 
+  xmlns="http://plugin.powerschool.pearson.com"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation='http://plugin.powerschool.pearson.com plugin.xsd'
+  name="LPS ELL SIMS"
+  version="1.0"
+  description="State SIMS reporting for ELL students">
+  <publisher name="Benjamin Houle">
     <contact email="benjamin.houle@lawrence.k12.ma.us"/>
-    </publisher>
+  </publisher>
 </plugin>

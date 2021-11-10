@@ -9,7 +9,46 @@
 <script type="text/javascript">
 
 window.onload = function() {
-  //alert("~(curyearid)"); 31 on test student
+  // Easier to access array than to use tlist_sql,
+  let langArr = [
+    [   "", 'eng'],["002", "chi"],["003", "fre"],["004", "gre"],["005", "ita"],["007", "spa"],
+
+    ["110", "afr"],["115", "alb"],["125", "tut"],["130", "amh"],["135", "ara"],["140", "arm"],
+    ["145", "aym"],["150", "ind"],["155", "bam"],["160", "bnt"],["165", "baq"],["170", "ben"],
+    ["180", "bre"],["185", "bul"],["190", "bur"],
+
+    ["205", "cat"],["210", "cau"],["225", "hat"],["230", "cpp"],["235", "cze"],["240", "dan"],
+    ["247", "din"],["250", "div"],["260", "dut"],["265", "dzo"],["267", "eng"],["270", "fan"],
+    ["280", "fij"],["290", "fin"],
+
+    ["310", "fry"],["317", "gaa"],["320", "glg"],["330", "ger"],["335", "gil"],["342", "grb"],
+    ["345", "grn"],["347", "guj"],["360", "hau"],["365", "heb"],["370", "hin"],["375", "hmn"],
+    ["380", "hun"],["385", "ibo"],["390", "ice"],
+
+    ["400", "ine"],["405", "gle"],["415", "jpn"],["420", "jav"],["422", "jrb"],["423", "kas"],
+    ["430", "khm"],["435", "kin"],["445", "kor"],["446", "kpe"],["452", "kro"],["455", "kur"],
+    ["460", "kru"],["470", "lao"],["480", "lat"],["483", "lav"],["487", "lit"],["495", "ltz"],
+    ["501", "mac"],["505", "mlg"],["510", "may"],["515", "mlt"],["522", "man"],["525", "mao"],
+    ["542", "men"],["551", "mos"],["560", "nah"],["580", "nep"],["585", "new"],["595", "nor"],
+    ["600", "paa"],["610", "per"],["620", "phi"],["630", "pol"],["633", "pan"],["645", "que"],
+    ["665", "rus"],["670", "smo"],
+
+    ["700", "sna"],["707", "snd"],["725", "slo"],["735", "smo"],["750", "swa"],["755", "swe"],
+    ["759", "tgl"],["765", "tam"],["767", "tel"],["770", "tha"],["775", "tib"],["783", "tir"],
+    ["785", "ton"],["795", "tvl"],["797", "twi"],
+
+    ["800", "ukr"],["810", "urd"],["815", "uzb"],["825", "vie"],["835", "wel"],["845", "yid"],
+    ["850", "yor"],
+  ];
+  function yearIdEqual26(lang) {
+    $j("#HomeLang16_17").show();
+    $j("#HomeLang17_18").hide();
+    var langCode = langArr.find(function(langPair) {
+      return langPair[1] === lang;
+    });
+    $j('#MA_Lang option[value="' + langCode + '"]').attr("selected", "selected");
+    $j("#defaultMsg_container").html('<div class="defaultMsg">(if not defined, "267" is extracted)<br /></div>');
+  }
 
   if (~(curyearid) >= 27) {
     var commanLang = "~([Students]MA_HomeLang)";
@@ -31,6 +70,7 @@ window.onload = function() {
     $j("#defaultMsg_container").html('<div class="defaultMsg">(if not defined, "eng" is extracted)<br /></div>');
 
     function languagecodelist() {
+      // Curious about this Query, description is used twice?
       var languagecdlist = [~[tlist_sql;
         SELECT
           description AS languagecodedesc,
@@ -83,9 +123,7 @@ window.onload = function() {
     if (nces_code == "" || description == "") {
       switch(commanLang) {
         case "": ~[tlist_sql;
-          SELECT
-            code AS cd,
-            description AS languagecodedesc
+          SELECT code AS cd, description AS languagecodedesc
           FROM ps_common_code
           WHERE category='nceslangcode' AND code='eng';
         ]
@@ -94,9 +132,7 @@ window.onload = function() {
         [/tlist_sql]
           break;
         case "007": ~[tlist_sql;
-          SELECT
-            code AS cd,
-            description AS languagecodedesc
+          SELECT code AS cd, description AS languagecodedesc
           FROM ps_common_code
           WHERE category='nceslangcode' AND code='spa';
         ]
@@ -105,9 +141,7 @@ window.onload = function() {
         [/tlist_sql]
           break;
         case "110": ~[tlist_sql;
-          SELECT
-            code AS cd,
-            description AS languagecodedesc
+          SELECT code AS cd, description AS languagecodedesc
           FROM ps_common_code
           WHERE category='nceslangcode' AND code='afr';
         ]
@@ -116,9 +150,7 @@ window.onload = function() {
         [/tlist_sql]
           break;
         case "115": ~[tlist_sql;
-          SELECT
-            code AS cd,
-            description AS languagecodedesc
+          SELECT code AS cd, description AS languagecodedesc
           FROM ps_common_code
           WHERE category='nceslangcode' AND code='alb';
         ]
@@ -127,10 +159,8 @@ window.onload = function() {
         [/tlist_sql]
           break;
         case  "125": ~[tlist_sql;
-          SELECT
-            code AS cd,
-            description AS languagecodedesc
-          FROM ps_common_code  
+          SELECT code AS cd, description AS languagecodedesc
+          FROM ps_common_code
           WHERE category='nceslangcode' AND code='tut';
         ]
           nces_code = '~(cd;t)';
@@ -139,10 +169,8 @@ window.onload = function() {
           break;
         case  "130":
           ~[tlist_sql;
-            SELECT
-              code AS cd,
-              description AS languagecodedesc
-            FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code
             WHERE category='nceslangcode' AND code='amh';
           ]
             nces_code = '~(cd;t)';
@@ -151,7 +179,8 @@ window.onload = function() {
           break;
         case  "135":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code
             WHERE category='nceslangcode' AND code='ara';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -159,7 +188,8 @@ window.onload = function() {
           break;
         case  "140":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code
             WHERE category='nceslangcode' AND code='arm';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -167,7 +197,8 @@ window.onload = function() {
           break;
         case  "145":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code
             WHERE category='nceslangcode' AND code='aym';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -175,7 +206,8 @@ window.onload = function() {
           break;
         case  "150":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code
             WHERE category='nceslangcode' AND code='ind';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -183,7 +215,8 @@ window.onload = function() {
           break;
         case  "155":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code
             WHERE category='nceslangcode' AND code='bam';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -191,7 +224,8 @@ window.onload = function() {
           break;
         case  "160":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code
             WHERE category='nceslangcode' AND code='bnt';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -199,7 +233,8 @@ window.onload = function() {
           break;
         case  "165":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code
             WHERE category='nceslangcode' AND code='baq';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -207,7 +242,8 @@ window.onload = function() {
           break;
         case  "170":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code
             WHERE category='nceslangcode' AND code='ben';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -218,7 +254,8 @@ window.onload = function() {
           break;
         case  "180":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code
             WHERE category='nceslangcode' AND code='bre';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -226,7 +263,8 @@ window.onload = function() {
           break;
         case  "185":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='bul';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -234,7 +272,8 @@ window.onload = function() {
           break;
         case  "190":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='bur';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -242,7 +281,8 @@ window.onload = function() {
           break;
         case  "205":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='cat';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -250,7 +290,8 @@ window.onload = function() {
           break;
         case  "210":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='cau';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -258,7 +299,8 @@ window.onload = function() {
           break;
         case  "225":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='hat';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -266,7 +308,8 @@ window.onload = function() {
           break;
         case  "002":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='chi';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -274,7 +317,8 @@ window.onload = function() {
           break;
         case  "230":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='cpp';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -282,7 +326,8 @@ window.onload = function() {
           break;
         case  "235":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='cze';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -290,7 +335,8 @@ window.onload = function() {
           break;
         case  "240":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='dan';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -298,7 +344,8 @@ window.onload = function() {
           break;
         case  "247":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='din';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -306,7 +353,8 @@ window.onload = function() {
           break;
         case  "250":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='div';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -314,7 +362,8 @@ window.onload = function() {
           break;
         case  "260":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='dut';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -322,7 +371,8 @@ window.onload = function() {
           break;
         case  "265":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='dzo';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -330,7 +380,8 @@ window.onload = function() {
           break;
         case  "267":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='eng';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -338,7 +389,8 @@ window.onload = function() {
           break;
         case  "270":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='fan';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -346,7 +398,8 @@ window.onload = function() {
           break;
         case  "280":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='fij';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -354,7 +407,8 @@ window.onload = function() {
           break;
         case  "290":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='fin';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -362,7 +416,8 @@ window.onload = function() {
           break;
         case  "003":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='fre';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -370,7 +425,8 @@ window.onload = function() {
           break;
         case  "310":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='fry';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -378,7 +434,8 @@ window.onload = function() {
           break;
         case  "310":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='gaa';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -386,7 +443,8 @@ window.onload = function() {
           break;
         case  "320":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='glg';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -394,7 +452,8 @@ window.onload = function() {
           break;
         case  "330":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='ger';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -402,7 +461,8 @@ window.onload = function() {
           break;
         case  "335":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='gil';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -410,7 +470,8 @@ window.onload = function() {
           break;
         case  "342":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='grb';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -418,7 +479,8 @@ window.onload = function() {
           break;
         case  "004":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='gre';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -426,7 +488,8 @@ window.onload = function() {
           break;
         case  "345":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='grn';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -434,7 +497,8 @@ window.onload = function() {
           break;
         case  "347":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='guj';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -442,7 +506,8 @@ window.onload = function() {
           break;
         case  "360":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='hau';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -450,7 +515,8 @@ window.onload = function() {
           break;
         case  "365":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='heb';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -458,7 +524,8 @@ window.onload = function() {
           break;
         case  "370":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='hin';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -466,7 +533,8 @@ window.onload = function() {
           break;
         case  "375":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='hmn';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -474,7 +542,8 @@ window.onload = function() {
           break;
         case  "380":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='hun';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -482,7 +551,8 @@ window.onload = function() {
           break;
         case  "385":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='ibo';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -490,7 +560,8 @@ window.onload = function() {
           break;
         case  "390":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='ice';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -498,7 +569,8 @@ window.onload = function() {
           break;
         case  "400":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='ine';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -506,7 +578,8 @@ window.onload = function() {
           break;
         case  "405":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='gle';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -514,7 +587,8 @@ window.onload = function() {
           break;
         case  "005":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='ita';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -522,7 +596,8 @@ window.onload = function() {
           break;
         case  "415":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='jpn';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -530,7 +605,8 @@ window.onload = function() {
           break;
         case  "420":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code 
             WHERE category='nceslangcode' AND code='jav';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -538,7 +614,8 @@ window.onload = function() {
           break;
         case  "422":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='jrb';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -546,7 +623,8 @@ window.onload = function() {
           break;
         case  "423":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='kas';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -554,7 +632,8 @@ window.onload = function() {
           break;
         case  "430":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='khm';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -562,7 +641,8 @@ window.onload = function() {
           break;
         case  "435":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='kin';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -570,7 +650,8 @@ window.onload = function() {
           break;
         case  "445":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='kor';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -578,7 +659,8 @@ window.onload = function() {
           break;
         case  "446":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='kpe';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -586,7 +668,8 @@ window.onload = function() {
           break;
         case  "452":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='kro';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -594,7 +677,8 @@ window.onload = function() {
           break;
         case  "460":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='kru';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -602,7 +686,8 @@ window.onload = function() {
           break;
         case  "455":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='kur';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -610,7 +695,8 @@ window.onload = function() {
           break;
         case  "470":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='lao';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -618,7 +704,8 @@ window.onload = function() {
           break;
         case  "480":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='lat';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -626,7 +713,8 @@ window.onload = function() {
           break;
         case  "483":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='lav';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -634,7 +722,8 @@ window.onload = function() {
           break;
         case  "487":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='lit';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -642,7 +731,8 @@ window.onload = function() {
           break;
         case  "495":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='ltz';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -650,7 +740,8 @@ window.onload = function() {
           break;
         case  "501":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='mac';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -658,7 +749,8 @@ window.onload = function() {
           break;
         case  "505":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='mlg';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -666,7 +758,8 @@ window.onload = function() {
           break;
         case  "510":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='may';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -674,7 +767,8 @@ window.onload = function() {
           break;
         case  "515":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='mlt';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -682,7 +776,8 @@ window.onload = function() {
           break;
         case  "522":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='man';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -690,7 +785,8 @@ window.onload = function() {
           break;
         case  "525":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='mao';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -698,7 +794,8 @@ window.onload = function() {
           break;
         case  "542":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='men';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -706,7 +803,8 @@ window.onload = function() {
           break;
         case  "551":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='mos';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -714,7 +812,8 @@ window.onload = function() {
           break;
         case  "560":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='nah';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -722,7 +821,8 @@ window.onload = function() {
           break;
         case  "580":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='nep';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -730,7 +830,8 @@ window.onload = function() {
           break;
         case  "585":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='new';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -738,7 +839,8 @@ window.onload = function() {
           break;
         case  "595":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='nor';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -746,7 +848,8 @@ window.onload = function() {
           break;
         case  "600":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='paa';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -754,7 +857,8 @@ window.onload = function() {
           break;
         case  "610":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='per';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -762,7 +866,8 @@ window.onload = function() {
           break;
         case  "620":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='phi';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -770,7 +875,8 @@ window.onload = function() {
           break;
         case "630":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='pol';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -778,7 +884,8 @@ window.onload = function() {
           break;
         case "006":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='por';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -786,7 +893,8 @@ window.onload = function() {
           break;
         case "633":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='pan';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -794,7 +902,8 @@ window.onload = function() {
           break;
         case  "645":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='que';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -802,7 +911,8 @@ window.onload = function() {
           break;
         case  "655":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='rum';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -810,7 +920,8 @@ window.onload = function() {
           break;
         case  "665":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='rus';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -818,7 +929,8 @@ window.onload = function() {
           break;
         case  "675":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='smo';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -826,7 +938,8 @@ window.onload = function() {
           break;
         case  "700":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='sna';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -834,7 +947,8 @@ window.onload = function() {
           break;
         case  "707":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='snd';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -842,7 +956,8 @@ window.onload = function() {
           break;
         case  "725":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='slo';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -850,7 +965,8 @@ window.onload = function() {
           break;
         case  "735":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='smo';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -858,7 +974,8 @@ window.onload = function() {
           break;
         case  "750":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='swa';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -866,7 +983,8 @@ window.onload = function() {
           break;
         case  "755":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='swe';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -874,7 +992,8 @@ window.onload = function() {
           break;
         case  "759":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='tgl';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -882,7 +1001,8 @@ window.onload = function() {
           break;
         case  "765":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='tam';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -890,7 +1010,8 @@ window.onload = function() {
           break;
         case  "767":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='tel';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -898,7 +1019,8 @@ window.onload = function() {
           break;
         case "770":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='tha';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -906,7 +1028,8 @@ window.onload = function() {
           break;
         case "775":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='tib';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -914,7 +1037,8 @@ window.onload = function() {
           break;
         case "783":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='tir';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -922,7 +1046,8 @@ window.onload = function() {
           break;
         case "785":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='ton';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -930,7 +1055,8 @@ window.onload = function() {
           break;
         case "790":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='ota';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -938,7 +1064,8 @@ window.onload = function() {
           break;
         case "795":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='tvl';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -946,7 +1073,8 @@ window.onload = function() {
           break;
         case "797":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='twi';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -954,7 +1082,8 @@ window.onload = function() {
           break;
         case "800":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='ukr';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -962,7 +1091,8 @@ window.onload = function() {
           break;
         case "810":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='urd';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -970,7 +1100,8 @@ window.onload = function() {
           break;
         case "815":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='uzb';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -978,7 +1109,8 @@ window.onload = function() {
           break;
         case "825":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='vie';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -986,7 +1118,8 @@ window.onload = function() {
           break;
         case "835":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code'wel';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -994,7 +1127,8 @@ window.onload = function() {
           break;
         case "845":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='yid';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -1002,7 +1136,8 @@ window.onload = function() {
           break;
         case "850":
           ~[tlist_sql;
-            SELECT code AS cd, description AS languagecodedesc FROM ps_common_code  
+            SELECT code AS cd, description AS languagecodedesc
+            FROM ps_common_code  
             WHERE category='nceslangcode' AND code='yor';]
             nces_code = '~(cd;t)';
             description = '~(languagecodedesc;t)';
@@ -1016,240 +1151,7 @@ window.onload = function() {
     $j("#languagecd_autocomplete").val(description);
   }
   
-  if (~(curyearid) == 26) {
-    var lang="~([Students]MA_HomeLang)";
-    $j("#HomeLang16_17").show();
-    $j("#HomeLang17_18").hide();
-    $j("#defaultMsg_container").html('<div class="defaultMsg">(if not defined, "267" is extracted)<br /></div>');
-
-    switch(lang) {
-      case "spa": $j('#MA_Lang option[value="007"]').attr("selected", "selected");
-        break;
-      case "afr": $j('#MA_Lang option[value="110"]').attr("selected", "selected");
-        break;
-      case "alb": $j('#MA_Lang option[value="115"]').attr("selected", "selected");
-        break;
-      case "tut": $j('#MA_Lang option[value="125"]').attr("selected", "selected");
-        break;
-      case "amh": $j('#MA_Lang option[value="130"]').attr("selected", "selected");
-        break;
-      case "ara": $j('#MA_Lang option[value="135"]').attr("selected", "selected");
-        break;
-      case "arm": $j('#MA_Lang option[value="140"]').attr("selected", "selected");
-        break;
-      case "aym": $j('#MA_Lang option[value="145"]').attr("selected", "selected");
-        break;
-      case "ind": $j('#MA_Lang option[value="150"]').attr("selected", "selected");
-        break;
-      case "bam": $j('#MA_Lang option[value="155"]').attr("selected", "selected");
-        break;
-      case "bnt": $j('#MA_Lang option[value="160"]').attr("selected", "selected");
-        break;
-      case "baq": $j('#MA_Lang option[value="165"]').attr("selected", "selected");
-        break;
-      case "ben": $j('#MA_Lang option[value="170"]').attr("selected", "selected");
-        break;
-      case "ber": $j('#MA_Lang option[value="175"]').attr("selected", "selected");
-        break;
-      case "bre": $j('#MA_Lang option[value="180"]').attr("selected", "selected");
-        break;
-      case "bul": $j('#MA_Lang option[value="185"]').attr("selected", "selected");
-        break;
-      case "bur": $j('#MA_Lang option[value="190"]').attr("selected", "selected");
-        break;
-      case "cat": $j('#MA_Lang option[value="205"]').attr("selected", "selected");
-        break;
-      case "cau": $j('#MA_Lang option[value="210"]').attr("selected", "selected");
-        break;
-      case "hat": $j('#MA_Lang option[value="225"]').attr("selected", "selected");
-        break;
-      case "chi": $j('#MA_Lang option[value="002"]').attr("selected", "selected");
-        break;
-      case "cpp": $j('#MA_Lang option[value="230"]').attr("selected", "selected");
-        break;
-      case "cze": $j('#MA_Lang option[value="235"]').attr("selected", "selected");
-        break;
-      case "dan": $j('#MA_Lang option[value="240"]').attr("selected", "selected");
-        break;
-      case "din": $j('#MA_Lang option[value="247"]').attr("selected", "selected");
-        break;
-      case "div": $j('#MA_Lang option[value="250"]').attr("selected", "selected");
-        break;
-      case "dut": $j('#MA_Lang option[value="260"]').attr("selected", "selected");
-        break;
-      case "dzo": $j('#MA_Lang option[value="265"]').attr("selected", "selected");
-        break;
-      case "fan": $j('#MA_Lang option[value="270"]').attr("selected", "selected");
-        break;
-      case "fij": $j('#MA_Lang option[value="280"]').attr("selected", "selected");
-        break;
-      case "fin": $j('#MA_Lang option[value="290"]').attr("selected", "selected");
-        break;
-      case "fre": $j('#MA_Lang option[value="003"]').attr("selected", "selected");
-        break;
-      case "fry": $j('#MA_Lang option[value="310"]').attr("selected", "selected");
-        break;
-      case "gaa": $j('#MA_Lang option[value="317"]').attr("selected", "selected");
-        break;
-      case "glg": $j('#MA_Lang option[value="320"]').attr("selected", "selected");
-        break;
-      case "ger": $j('#MA_Lang option[value="330"]').attr("selected", "selected");
-        break;
-      case "gil": $j('#MA_Lang option[value="335"]').attr("selected", "selected");
-        break;
-      case "grb": $j('#MA_Lang option[value="342"]').attr("selected", "selected");
-        break;
-      case "gre": $j('#MA_Lang option[value="004"]').attr("selected", "selected");
-        break;
-      case "grn": $j('#MA_Lang option[value="345"]').attr("selected", "selected");
-        break;
-      case "guj": $j('#MA_Lang option[value="347"]').attr("selected", "selected");
-        break;
-      case "hau": $j('#MA_Lang option[value="360"]').attr("selected", "selected");
-        break;
-      case "heb": $j('#MA_Lang option[value="365"]').attr("selected", "selected");
-        break;
-      case "hin": $j('#MA_Lang option[value="370"]').attr("selected", "selected");
-        break;
-      case "hmn": $j('#MA_Lang option[value="375"]').attr("selected", "selected");
-        break;
-      case "hun": $j('#MA_Lang option[value="380"]').attr("selected", "selected");
-        break;
-      case "ibo": $j('#MA_Lang option[value="385"]').attr("selected", "selected");
-        break;
-      case "ice": $j('#MA_Lang option[value="390"]').attr("selected", "selected");
-        break;
-      case "ine": $j('#MA_Lang option[value="400"]').attr("selected", "selected");
-        break;
-      case "gle": $j('#MA_Lang option[value="405"]').attr("selected", "selected");
-        break;
-      case "ita": $j('#MA_Lang option[value="005"]').attr("selected", "selected");
-        break;
-      case "jpn": $j('#MA_Lang option[value="415"]').attr("selected", "selected");
-        break;
-      case "jav": $j('#MA_Lang option[value="420"]').attr("selected", "selected");
-        break;
-      case "jrb": $j('#MA_Lang option[value="422"]').attr("selected", "selected");
-        break;
-      case "kas": $j('#MA_Lang option[value="423"]').attr("selected", "selected");
-        break;
-      case "khm": $j('#MA_Lang option[value="430"]').attr("selected", "selected");
-        break;
-      case "kin": $j('#MA_Lang option[value="435"]').attr("selected", "selected");
-        break;
-      case "kor": $j('#MA_Lang option[value="445"]').attr("selected", "selected");
-        break;
-      case "kpe": $j('#MA_Lang option[value="446"]').attr("selected", "selected");
-        break;
-      case "kro": $j('#MA_Lang option[value="452"]').attr("selected", "selected");
-        break;
-      case "kru": $j('#MA_Lang option[value="460"]').attr("selected", "selected");
-        break;
-      case "kur": $j('#MA_Lang option[value="455"]').attr("selected", "selected");
-        break;
-      case "lao": $j('#MA_Lang option[value="470"]').attr("selected", "selected");
-        break;
-      case "lat": $j('#MA_Lang option[value="480"]').attr("selected", "selected");
-        break;
-      case "lav": $j('#MA_Lang option[value="483"]').attr("selected", "selected");
-        break;
-      case "lit": $j('#MA_Lang option[value="487"]').attr("selected", "selected");
-        break;
-      case "ltz": $j('#MA_Lang option[value="495"]').attr("selected", "selected");
-        break;
-      case "mac": $j('#MA_Lang option[value="501"]').attr("selected", "selected");
-        break;
-      case "mlg": $j('#MA_Lang option[value="505"]').attr("selected", "selected");
-        break;
-      case "may": $j('#MA_Lang option[value="510"]').attr("selected", "selected");
-        break;
-      case "mlt": $j('#MA_Lang option[value="515"]').attr("selected", "selected");
-        break;
-      case "man": $j('#MA_Lang option[value="522"]').attr("selected", "selected");
-        break;
-      case "mao": $j('#MA_Lang option[value="525"]').attr("selected", "selected");
-        break;
-      case "men": $j('#MA_Lang option[value="542"]').attr("selected", "selected");
-        break;
-      case "mos": $j('#MA_Lang option[value="551"]').attr("selected", "selected");
-        break;
-      case "nah": $j('#MA_Lang option[value="560"]').attr("selected", "selected");
-        break;
-      case "nep": $j('#MA_Lang option[value="580"]').attr("selected", "selected");
-        break;
-      case "new": $j('#MA_Lang option[value="585"]').attr("selected", "selected");
-        break;
-      case "nor": $j('#MA_Lang option[value="595"]').attr("selected", "selected");
-        break;
-      case "paa": $j('#MA_Lang option[value="600"]').attr("selected", "selected");
-        break;
-      case "per": $j('#MA_Lang option[value="610"]').attr("selected", "selected");
-        break;
-      case "phi": $j('#MA_Lang option[value="620"]').attr("selected", "selected");
-        break;
-      case "pol": $j('#MA_Lang option[value="630"]').attr("selected", "selected");
-        break;
-      case "por": $j('#MA_Lang option[value="006"]').attr("selected", "selected");
-        break;
-      case "pan": $j('#MA_Lang option[value="633"]').attr("selected", "selected");
-        break;
-      case "que": $j('#MA_Lang option[value="645"]').attr("selected", "selected");
-        break;
-      case "rum": $j('#MA_Lang option[value="655"]').attr("selected", "selected");
-        break;
-      case "rus": $j('#MA_Lang option[value="665"]').attr("selected", "selected");
-        break;
-      case "smo": $j('#MA_Lang option[value="670"]').attr("selected", "selected");
-        break;
-      case "sna": $j('#MA_Lang option[value="700"]').attr("selected", "selected");
-        break;
-      case "snd": $j('#MA_Lang option[value="707"]').attr("selected", "selected");
-        break;
-      case "slo": $j('#MA_Lang option[value="725"]').attr("selected", "selected");
-        break;
-      case "som": $j('#MA_Lang option[value="735"]').attr("selected", "selected");
-        break;
-      case "swa": $j('#MA_Lang option[value="750"]').attr("selected", "selected");
-        break;
-      case "swe": $j('#MA_Lang option[value="755"]').attr("selected", "selected");
-        break;
-      case "tgl": $j('#MA_Lang option[value="759"]').attr("selected", "selected");
-        break;
-      case "tam": $j('#MA_Lang option[value="765"]').attr("selected", "selected");
-        break;
-      case "tel": $j('#MA_Lang option[value="767"]').attr("selected", "selected");
-        break;
-      case "tha": $j('#MA_Lang option[value="770"]').attr("selected", "selected");
-        break;
-      case "tib": $j('#MA_Lang option[value="775"]').attr("selected", "selected");
-        break;
-      case "tir": $j('#MA_Lang option[value="783"]').attr("selected", "selected");
-        break;
-      case "ton": $j('#MA_Lang option[value="785"]').attr("selected", "selected");
-        break;
-      case "ota": $j('#MA_Lang option[value="790"]').attr("selected", "selected");
-        break;
-      case "tvl": $j('#MA_Lang option[value="795"]').attr("selected", "selected");
-        break;
-      case "twi": $j('#MA_Lang option[value="797"]').attr("selected", "selected");
-        break;
-      case "ukr": $j('#MA_Lang option[value="800"]').attr("selected", "selected");
-        break;
-      case "urd": $j('#MA_Lang option[value="810"]').attr("selected", "selected");
-        break;
-      case "uzb": $j('#MA_Lang option[value="815"]').attr("selected", "selected");
-        break;
-      case "vie": $j('#MA_Lang option[value="825"]').attr("selected", "selected");
-        break;
-      case "wel": $j('#MA_Lang option[value="835"]').attr("selected", "selected");
-        break;
-      case "yid": $j('#MA_Lang option[value="845"]').attr("selected", "selected");
-        break;
-      case "yor": $j('#MA_Lang option[value="850"]').attr("selected", "selected");
-        break;
-      default: $j('#MA_Lang option[value="267"]').attr("selected", "selected");
-    }
-  }
+  if (~(curyearid) == 26) { yearIdEqual26("~([Students]MA_HomeLang)"); }
 
   if (~(curyearid) < 26) {
     $j("#defaultMsg_container").html('<div class="defaultMsg">(if not defined, "267" is extracted)<br /></div>');
@@ -1262,8 +1164,8 @@ window.onload = function() {
     && (document.getElementById('futureplans').value == "500"
       || document.getElementById('gradstatus').value == "00")
     ) {
-      var errormsg1 = document.getElementById('futureplans').value == "500" ? "\n - DOE033 (Post Graduate Plans) must be set to something other than 500" : "";		
-      var errormsg2 = document.getElementById('gradstatus').value == "00" ? "\n - DOE037 (Graduate) must be set to something other than 00" : "";
+      let errorMsg1 = document.getElementById('futureplans').value == "500" ? "\n - DOE033 (Post Graduate Plans) must be set to something other than 500" : "";		
+      let errorMsg2 = document.getElementById('gradstatus').value == "00" ? "\n - DOE037 (Graduate) must be set to something other than 00" : "";
 
       alert("When DOE012 (Enrollment Status) is set to Graduated: \n" + errormsg1 + errormsg2 );  
       closeLoading();
@@ -1272,13 +1174,14 @@ window.onload = function() {
   }
 
   function checkStateStuNum(ele) {
+    let errorMsg = document.getElementById('errormessage');
+    errorMsg.innerHTML = "";
+
     if (isNaN(ele.value)) {
-      document.getElementById('errormessage').innerHTML="SASID must contain 10 numeric characters (0-9)";
-      ele.value="";
+      errorMsg.innerHTML = "SASID must contain 10 numeric characters (0-9)";
+      ele.value = "";
     } else if (ele.value.length < 10) {
-      document.getElementById('errormessage').innerHTML="SASID must contain 10 numeric characters (0-9)";
-    } else {
-      document.getElementById('errormessage').innerHTML="";
+      errorMsg.innerHTML = "SASID must contain 10 numeric characters (0-9)";
     }
     return false;
   }
