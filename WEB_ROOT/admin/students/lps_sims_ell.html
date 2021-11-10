@@ -10,7 +10,7 @@
 
 window.onload = function() {
   // Easier to access array than to use tlist_sql,
-  let langArr = [
+  let langMap = [
     [   "", 'eng'],["002", "chi"],["003", "fre"],["004", "gre"],["005", "ita"],["007", "spa"],
 
     ["110", "afr"],["115", "alb"],["125", "tut"],["130", "amh"],["135", "ara"],["140", "arm"],
@@ -43,9 +43,7 @@ window.onload = function() {
   function yearIdEqual26(lang) {
     $j("#HomeLang16_17").show();
     $j("#HomeLang17_18").hide();
-    var langCode = langArr.find(function(langPair) {
-      return langPair[1] === lang;
-    });
+    var langCode = langMap.find(langPair => langPair[1] === lang);
     $j('#MA_Lang option[value="' + langCode + '"]').attr("selected", "selected");
     $j("#defaultMsg_container").html('<div class="defaultMsg">(if not defined, "267" is extracted)<br /></div>');
   }
@@ -1167,7 +1165,7 @@ window.onload = function() {
       let errorMsg1 = document.getElementById('futureplans').value == "500" ? "\n - DOE033 (Post Graduate Plans) must be set to something other than 500" : "";		
       let errorMsg2 = document.getElementById('gradstatus').value == "00" ? "\n - DOE037 (Graduate) must be set to something other than 00" : "";
 
-      alert("When DOE012 (Enrollment Status) is set to Graduated: \n" + errormsg1 + errormsg2 );  
+      alert("When DOE012 (Enrollment Status) is set to Graduated: \n" + errorMsg1 + errorMsg2 );  
       closeLoading();
       return false;
     }

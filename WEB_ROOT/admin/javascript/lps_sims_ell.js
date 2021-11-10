@@ -5,7 +5,7 @@
 ----------------------------------------------------------*/
 // FILE CURRENTLY NOT USED, ATTEMPTING TO MOVE JAVASCRIPT OVER FROM HTML FILE
 // Create lang-code array, because PowerSchool didn't
-var langArr = [
+var langMap = [
   [   "", 'eng'],["002", "chi"],["003", "fre"],["004", "gre"],["005", "ita"],["007", "spa"],
 
   ["110", "afr"],["115", "alb"],["125", "tut"],["130", "amh"],["135", "ara"],["140", "arm"],
@@ -40,9 +40,7 @@ var langArr = [
 function yearIdEqual26(lang) {
   $j("#HomeLang16_17").show();
   $j("#HomeLang17_18").hide();
-  var langCode = langArr.find(function(langPair) {
-    return langPair[1] === lang;
-  });
+  var langCode = langMap.find(langPair => langPair[1] === lang);
   $j('#MA_Lang option[value="' + langCode + '"]').attr("selected", "selected");
   $j("#defaultMsg_container").html('<div class="defaultMsg">(if not defined, "267" is extracted)<br /></div>');
 }
@@ -58,27 +56,22 @@ function checkDefaultInfo() {
     document.getElementById('futureplans').value == "500" || 
     document.getElementById('gradstatus').value == "00"
   )) {
-    var errormsg1 = "";
-    if (document.getElementById('futureplans').value == "500") {
-      errormsg1 = " - DOE033 (Post Graduate Plans) must be set to something other than 500 \n";
-    }
-    var errormsg2 = "";
-    if(document.getElementById('gradstatus').value == "00") {
-      errormsg2 = " - DOE037 (Graduate) must be set to something other than 00";
-    }
-    alert("When DOE012 (Enrollment Status) is set to Graduated: \n" + errormsg1 + errormsg2 );
+    let errorMsg1 = document.getElementById('futureplans').value == "500" ? "\n - DOE033 (Post Graduate Plans) must be set to something other than 500" : "";		
+    let errorMsg2 = document.getElementById('gradstatus').value == "00" ? "\n - DOE037 (Graduate) must be set to something other than 00" : "";
+    alert("When DOE012 (Enrollment Status) is set to Graduated: \n" + errorMsg1 + errorMsg2 );
     closeLoading();
     return false;
   }
 }
 function checkStateStuNum(ele) {
+  let errorMsg = document.getElementById('errormessage');
+  errorMsg.innerHTML = "";
+
   if (isNaN(ele.value)) {
-    document.getElementById('errormessage').innerHTML="SASID must contain 10 numeric characters (0-9)";
-    ele.value="";
+    errorMsg.innerHTML = "SASID must contain 10 numeric characters (0-9)";
+    ele.value = "";
   } else if (ele.value.length < 10) {
-    document.getElementById('errormessage').innerHTML="SASID must contain 10 numeric characters (0-9)";
-  } else {
-    document.getElementById('errormessage').innerHTML="";
+    errorMsg.innerHTML = "SASID must contain 10 numeric characters (0-9)";
   }
   return false;
 }
