@@ -1,0 +1,5 @@
+<script type="text/javascript">
+$j(document).ready(function() {
+    $j( "ul#std_information > li > a[href^='transportation.html?frn=']" ).parent().before($j('<li ><a href="LPS-ell_sims.html?frn=~(studentfrn)">State EL Only SIMS &tilde;</a></li>'));
+});
+</script>
