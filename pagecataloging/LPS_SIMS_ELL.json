@@ -1,0 +1,14 @@
+{
+  "pages": [
+	{
+	  "htmlID": "navlps_sims_ell",
+	  "title": "State EL Only SIMS &tilde;",
+	  "version": "24.10.1.1",
+	  "contextType": "student",
+	  "requiredContext": "student",
+	  "sortOrder": 1030,
+	  "pageURL": "/admin/students/LPS-ell_sims.html?frn=~(studentfrn)",
+	  "parentHTMLID": "navUSA_MAStudent"
+	}
+  ]
+}
