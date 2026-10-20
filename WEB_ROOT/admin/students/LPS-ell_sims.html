@@ -36,32 +36,56 @@
     		<td class="bold">FLEP Date</td>
     		<td><input name="[Students.U_Students_Extension]FLEPDate" value="~([Students.U_Students_Extension]FLEPDate)"  id="FLEPDate"  type="text" maxlength="10" size="10"></td>
 			</tr>
-    	<tr class="~[evenoddrow]">
+    <tr class="~[evenoddrow]">
         <td class="bold">DOE021</td>
-        <td class="bold" title="[Students]MA_LEPinUS">LEP Students in their First Year in U.S. Schools</td>
-    	</tr>
-    	<tr class="~[evenoddrow;maintain]">
+        <td class="bold" title="[Students.S_MA_STU_Demographic_X]LEP1stYrInUS">LEP Students in their First Year in U.S. Schools</td>
+    </tr>
+    <tr class="~[evenoddrow;maintain]">
         <td>&nbsp;</td>
-        <td><select name="[Students]MA_LEPinUS">
-        	<option value="00">Does not apply (00)</option>
-        	<option value="01">LEP student in first year of U.S. schooling (01)</option>
-        	<option value="02">LEP student not in first year of U.S. schooling (02)</option>
-        </select><br>(if not defined, "00" is extracted)</td>
-    	</tr>
-     	<tr class="~[evenoddrow]">
+        <td><select name="[Students.S_MA_STU_Demographic_X]LEP1stYrInUS" id="MA_LEPinUS" class="psloaddrops">
+     ~[if.ModAccess]
+            ~[tlist_sql;
+           SELECT
+               code,
+               className,
+               selected,
+               disabled,
+               description
+           FROM
+               TABLE(MA_PARAMS.getDropDownHTML('MA_XX','MA_LEPinUS','~([Students.S_MA_STU_Demographic_X]LEP1stYrInUS)',~(curtermid),'BU'));
+       ]    <option value='~(code;t)' class='~(className;t)' ~(selected;t) ~(disabled;t)>~(description;t)</option>[/tlist_sql]
+        [else]
+        ~[tlist_sql;
+            SELECT description
+            FROM PS_COMMON_CODE WHERE PS_GROUP='MA_XX' AND CATEGORY  ='MA_LEPinUS'
+            AND code = '~([Students.S_MA_STU_Demographic_X]LEP1stYrInUS)']
+        ~(description)
+
+        [/tlist_sql]
+    [/if]
+        </select><span id="nonEditSpan_MA_LEPinUS"></span><br>(if not defined, "00" is extracted)</td>
+    </tr>
+    <tr class="~[evenoddrow]">
         <td class="bold">DOE024</td>
         <td class="bold" title="[Students.S_MA_STU_Demographic_X]NativeLanguage">First (Native) Language</td>
-    	</tr>
-    	<!-- For 2007-2008 school year ONLY -->
-    	<tr class="~[evenoddrow;maintain]" id="HomeLang17_18">
+    </tr>
+<!-- For 2007-2008 school year ONLY -->
+    <tr class="~[evenoddrow;maintain]" id="HomeLang16_17">
+        <td>&nbsp;</td>
+        <td>~[x:insertfile;PopupMenus/MA_HomeLang_temp.html]
+		<div id="defaultMsg_container">
+		</div></td>
+
+    </tr>
+	<tr class="~[evenoddrow;maintain]" id="HomeLang17_18">
         <td>&nbsp;</td>
         <td>
-					<div class="ui-widget">
-						<input  name="[Students.S_MA_STU_Demographic_X]NativeLanguage"  id="MA_Lang1"value=""  type="hidden" maxlength="3" size="4">
-						<input id="languagecd_autocomplete" size="45" type="text" value="">
-					</div>
-				</td>
-    	</tr>
+			<div class="ui-widget">
+				<input  name="[Students.S_MA_STU_Demographic_X]NativeLanguage"  id="MA_Lang1"value=""  type="hidden" maxlength="3" size="4">
+				<input id="languagecd_autocomplete" size="45" type="text" value="">
+			</div>
+		</td>
+    </tr>
 <!-- Implemented after above MA_HomeLang is removed
     <tr class="~[evenoddrow;maintain]">
         <td>&nbsp;</td>
@@ -69,13 +93,13 @@
         (<a href="PopupMenus/MA_HomeLang.html" target="_blank">Codes</a>)
         <br>(if not defined, "267" is extracted)</td>
     </tr> -->
-    	<tr class="~[evenoddrow]">
-				<td class="bold">DOE025</td>
-				<td class="bold" title="[Students.S_MA_STU_Demographic_X]LimitedEnglishProficiency">Limited English Proficiency</td>
-			</tr>
-			<tr class="~[evenoddrow;maintain]">
-				<td>&nbsp;</td>
-				<td><select name="[Students.S_MA_STU_Demographic_X]LimitedEnglishProficiency" id="MA_EngProficiency">
+<tr class="~[evenoddrow]">
+<td class="bold">DOE025</td>
+<td class="bold" title="[Students.S_MA_STU_Demographic_X]LimitedEnglishProficiency">Limited English Proficiency</td>
+</tr>
+<tr class="~[evenoddrow;maintain]">
+<td>&nbsp;</td>
+<td><select name="[Students.S_MA_STU_Demographic_X]LimitedEnglishProficiency" id="MA_EngProficiency">
  ~[if.ModAccess]
             ~[tlist_sql;
            SELECT
@@ -97,70 +121,73 @@
         [/tlist_sql]
     [/if] 
 </select><span id="nonEditSpan_MA_EngProficiency"></span><br>(if not defined, "00" is extracted)</td>
-			</tr>
-			<tr class="~[evenoddrow]">
-				<td class="bold">DOE026</td>
-				<td class="bold" title="[Students.S_MA_STU_Demographic_X]LEPProgramStatus">English Language Learners Program Status</td>
-			</tr>
-			<tr class="~[evenoddrow;maintain]">
-				<td>&nbsp;</td>
-				<td><select name="[Students.S_MA_STU_Demographic_X]LEPProgramStatus" id="BilingualStatus" value="">
-        	~[if.ModAccess]
-          	~[tlist_sql;
-              SELECT
-                code,
-                className,
-                selected,
-                disabled,
-                description
-              FROM
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold">DOE026</td>
+<td class="bold" title="[Students.S_MA_STU_Demographic_X]LEPProgramStatus">English Language Learners Program Status</td>
+</tr>
+<tr class="~[evenoddrow;maintain]">
+<td>&nbsp;</td>
+    <td><select name="[Students.S_MA_STU_Demographic_X]LEPProgramStatus" id="BilingualStatus" value="">
+         ~[if.ModAccess]
+            ~[tlist_sql;
+           SELECT
+               code,
+               className,
+               selected,
+               disabled,
+               description
+           FROM
                TABLE(MA_PARAMS.getDropDownHTML('MA_XX','BilingualStat','~([Students.S_MA_STU_Demographic_X]LEPProgramStatus)',~(curtermid),'BU'));
-       			]<option value='~(code;t)' class='~(className;t)' ~(selected;t) ~(disabled;t)>~(description;t)</option>[/tlist_sql]
-        	[else]
-        		~[tlist_sql;
-            	SELECT description
-            	FROM PS_COMMON_CODE WHERE PS_GROUP='MA_XX' AND CATEGORY  ='BilingualStat'
-            	AND code = '~([Students.S_MA_STU_Demographic_X]LEPProgramStatus)']
-        			~(description)
-            [/tlist_sql]
-    			[/if]
-    		</select><br>(if not defined, "00" is extracted)</td>
-			</tr>
-			<tr class="~[evenoddrow]">
-				<td class="bold">DOE028</td>
-				<td class="bold" title="[Students.S_STU_NCEA_X]SealofBiliteracy">Seal of Biliteracy</td>
-			</tr>
-			<tr class="~[evenoddrow;maintain]">
-    		<td>&nbsp;</td>
-    		<td><select name="[Students.S_STU_X]SealofBiliteracy" id="SealofBiliteracy" value="">
-        	~[if.ModAccess]
-          	~[tlist_sql;
-            	SELECT
-              	code,
-              	className,
-              	selected,
-              	disabled,
-              	description
-            	FROM
-              	TABLE(MA_PARAMS.getDropDownHTML('COMMON','SealofBilitUpdate','~([Students.S_STU_X]SealofBiliteracy)',~(curtermid),'U'));
-       			]<option value='~(code;t)' class='~(className;t)' ~(selected;t) ~(disabled;t)>~(description;t)</option>[/tlist_sql]
-        	[else]
-        		~[tlist_sql;
-            	SELECT description
-            	FROM PS_COMMON_CODE WHERE PS_GROUP='COMMON' AND CATEGORY  ='SealofBilitUpdate'
-            	AND code = '~([Students.S_STU_X]SealofBiliteracy)']
-        			~(description)
-        		[/tlist_sql]
-    			[/if]    
-        </select></td>
-			</tr>
-			<tr class="~[evenoddrow]">
-				<td class="bold">DOE041</td>
-				<td class="bold" title="[Students.S_MA_STU_SIMS_X]ELL_SLIFE">ELL SLIFE - English Language Learner Student with Limited or Interrupted Formal Education</td>
-			</tr>
-			<tr class="~[evenoddrow;maintain]">
-				<td>&nbsp;</td>
-				<td><select name="[Students.S_MA_STU_SIMS_X]ELL_SLIFE" id="ELL_SLIFE">
+       ]    <option value='~(code;t)' class='~(className;t)' ~(selected;t) ~(disabled;t)>~(description;t)</option>[/tlist_sql]
+        [else]
+        ~[tlist_sql;
+            SELECT description
+            FROM PS_COMMON_CODE WHERE PS_GROUP='MA_XX' AND CATEGORY  ='BilingualStat'
+            AND code = '~([Students.S_MA_STU_Demographic_X]LEPProgramStatus)']
+        ~(description)
+            
+        [/tlist_sql]
+    [/if]    
+    </select><br>(if not defined, "00" is extracted)</td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold">DOE028</td>
+<td class="bold" title="[Students.S_STU_NCEA_X]SealofBiliteracy">Seal of Biliteracy</td>
+</tr>
+<tr class="~[evenoddrow;maintain]">
+    <td>&nbsp;</td>
+    <td><select name="[Students.S_STU_X]SealofBiliteracy" id="SealofBiliteracy" value="">
+         ~[if.ModAccess]
+            ~[tlist_sql;
+           SELECT
+               code,
+               className,
+               selected,
+               disabled,
+               description
+           FROM
+               TABLE(MA_PARAMS.getDropDownHTML('COMMON','SealofBilitUpdate','~([Students.S_STU_X]SealofBiliteracy)',~(curtermid),'U'));
+       ]    <option value='~(code;t)' class='~(className;t)' ~(selected;t) ~(disabled;t)>~(description;t)</option>[/tlist_sql]
+        [else]
+        ~[tlist_sql;
+            SELECT description
+            FROM PS_COMMON_CODE WHERE PS_GROUP='COMMON' AND CATEGORY  ='SealofBilitUpdate'
+            AND code = '~([Students.S_STU_X]SealofBiliteracy)']
+        ~(description)
+            
+        [/tlist_sql]
+    [/if]    
+        </select>
+    </td>
+</tr>
+<tr class="~[evenoddrow]">
+<td class="bold">DOE041</td>
+<td class="bold" title="[Students.S_MA_STU_SIMS_X]ELL_SLIFE">ELL SLIFE - English Language Learner Student with Limited or Interrupted Formal Education</td>
+</tr>
+<tr class="~[evenoddrow;maintain]">
+<td>&nbsp;</td>
+<td><select name="[Students.S_MA_STU_SIMS_X]ELL_SLIFE" id="ELL_SLIFE">
 ~[if.ModAccess]
             ~[tlist_sql;
            SELECT
@@ -182,7 +209,7 @@
         [/tlist_sql]
     [/if] 
 </select><br>(if not defined, "00" is extracted)</td>
-			</tr>
+</tr><span id="nonEditSpan_ELL_SLIFE"></span>
     </table>
     <div class="button-row">
 			<input type="hidden" name="ac" value="prim">~[submitbutton]
@@ -226,6 +253,11 @@
 		$j(function() {
 		var languagecd = new Array();
 		languagecd = languagecodelist();
+		window.__disabledLangCodes = [
+		~[tlist_sql;select code as cd from ps_common_code where ps_group='MA_XX' and category='nceslangcode' and effective_enddate is not null and effective_enddate < trunc(sysdate) order by code;]
+		"~(cd)",
+		[/tlist_sql]
+		""];
 		var jquiMajor = parseInt($j.ui.version.split('.')[0]),
 	    	jquiMinor = parseInt($j.ui.version.split('.')[1]),
 	   		autoCompleteStr = 'ui-autocomplete',
@@ -239,17 +271,25 @@
 		$j( "#languagecd_autocomplete" ).autocomplete({
 			minLength: 0,
 			source: languagecd,
+			focus: function( event, ui ) {
+				if ( window.__disabledLangCodes.indexOf( ui.item.value ) > -1 ) { return false; }
+			},
 			select: function( event, ui ) {
+			    if ( window.__disabledLangCodes.indexOf( ui.item.value ) > -1 ) { return false; }
 				$j( "#languagecd_autocomplete" ).val( ui.item.label );
 				$j( "#MA_Lang1" ).val( ui.item.value );
 				return false;
 			}
 		})
 		.data( autoCompleteStr )._renderItem = function( ul, item ) {
-			return $j( "<li></li>" )
-				.data( autoCompleteItemStr, item )
-				.append( "<a>" + item.label + "</a>" )
-				.appendTo( ul );
+			var li = $j( "<li></li>" ).data( autoCompleteItemStr, item );
+			if ( window.__disabledLangCodes.indexOf( item.value ) > -1 ) {
+				li.addClass( "ui-state-disabled" ).css( "opacity", "1" )
+					.append( "<a style='color:#666;cursor:default;'>" + item.label + "</a>" );
+			} else {
+				li.append( "<a>" + item.label + "</a>" );
+			}
+			return li.appendTo( ul );
 		};
 		
 		});
@@ -2083,6 +2123,7 @@
 	}
 function checkDefaultInfo()  
 {
+/* LPS: DOE012, DOE033 and DOE037 doe not exist on the page, so skip these checks
 	if(document.getElementById('enrollstatus').value == "04"
 	&& (document.getElementById('futureplans').value == "500"
 		|| document.getElementById('gradstatus').value == "00"))
@@ -2099,6 +2140,7 @@ function checkDefaultInfo()
 		return false;
 	}
 
+*/
 /* Autocalculate is currently disabled for PSSR-218671.	
 /*		
 	if(document.getElementById('MA_SchoolCode').value=="" || document.getElementById('MA_AltEd').value=="")
@@ -2171,6 +2213,300 @@ function checkStateStuNum(ele) {
 	}
 	return false;
 }
+</script>
+<script>
+		var DOE047TextBox = document.getElementById('ircodes1');
+		DOE047TextBox.addEventListener('input', function() {
+		var inputValue = this.value;
+        if (inputValue.length === 3) {
+			DOE047TextBox.blur();
+			DOE047TextBox.focus();
+            }
+		});
+
+		function validateDOE047() {
+		var inputircodes1 = document.getElementById("ircodes1");
+        var warningElement = document.getElementById('warning_message');
+        var validValues = ['', '330', '603', '604', '645', '724', '760', '761', '762', '764', '765', '797', '803', '827', '831', '955', '956', '957', '958', '959', '960', '961'];
+		var inputValue = inputircodes1.value;
+        if (!validValues.includes(inputValue)) {
+        warningElement.textContent = "Warning: Invalid safety certification selected";
+        } else {
+            warningElement.textContent = "";
+        }
+    };
+
+	window.onload = function() {
+        var inputircodes1 = document.getElementById("ircodes1").value;
+	    var warningElement = document.getElementById('warning_message');
+        var validIrcodes1Values = ['', '330', '603', '604', '645', '724', '760', '761', '762', '764', '765', '797', '803', '827', '831', '955', '956', '957', '958', '959', '960', '961'];
+        if (!validIrcodes1Values.includes(inputircodes1)) {
+        warningElement.textContent = "Warning: Invalid safety certification selected";
+        } else {
+            warningElement.textContent = "";
+        }
+    };
+
+	function InitialloadProgParticipationData(){
+		var progParticipationcode74="";
+		var chapter74;
+		var nonChapter74;
+		~[tlist_sql;select MA_SIMS.F_SIF_MA_DetermineSP(s.entrydate,s.exitdate,s.id,1991+~(v.curyearid),(CASE WHEN s.Enroll_status = 2 THEN s.Enrollment_SchoolID ELSE s.SchoolID END)) as retval from students s where s.id = ~(ID);]
+			progParticipationcode74='~(retval)';				
+		[/tlist_sql]	
+
+		var values = progParticipationcode74.split(',');
+		var doe043Val = values[0];
+		var doe044Val =values[1];
+		$j('#doe043Val').html(doe043Val);
+		$j('#doe044Val').html(doe044Val);
+	}
+	function UpdateDOE26(){
+		if('~(curyearid)'<30){
+			$j('#BilingualStatus').find('option').each(function(index,element){
+				 if(element.text.toLowerCase()=='dual language education (02)'){
+					$j('#BilingualStatus option:eq('+index+')').prop('text','Two-Way bilingual (02)');
+				 }
+				 if(element.text.toLowerCase()=='other bilingual program (waivered students only) (03)'){
+					$j('#BilingualStatus option:eq('+index+')').prop('text','Other bilingual education (waivered students only) (03)');
+				 }
+			 });	
+		}
+	}
+	
+	function DOE035_DisableDiscont()
+	{
+		 $j("#MA_OEPType").find("option[value*='01']").prop("disabled", true);
+		 $j("#MA_OEPType").find("option[value*='03']").prop("disabled", true);
+		 $j("#MA_OEPType").find("option[value*='05']").prop("disabled", true);
+		 $j("#MA_OEPType").find("option[value*='13']").prop("disabled", true);
+	}
+	function buildMAHomeLangSource() {
+        var source = [];
+        ~[tlist_sql;select description as languagecodedesc, code as cd, description as cddesc from ps_common_code
+        where ps_group='MA_XX' and category='nceslangcode' order by cddesc;]
+        source.push({ label: "~(languagecodedesc)", value: "~(cd)" });
+        [/tlist_sql]
+        source.push({ label: "", value: "" });
+        return source;
+    }
+
+    function syncMAHomeLangDisplay(hiddenSelector, textSelector) {
+        var code = $j(hiddenSelector).val();
+        var source = buildMAHomeLangSource();
+        var label = '';
+        for (var i = 0; i < source.length; i++) {
+            if (source[i].value === code) { label = source[i].label; break; }
+        }
+
+        $j(textSelector).val(label);
+    }
+
+    function renderMAHomeLangHighlight(hiddenSelector, displaySelector) {
+        var code = $j(hiddenSelector).val();
+        var source = buildMAHomeLangSource();
+        var label = '';
+        for (var i = 0; i < source.length; i++) {
+            if (source[i].value === code) { label = source[i].label; break; }
+        }
+        if (!label && code === '500') {
+            label = '500 - Does Not Apply';
+        }
+        $j(displaySelector).text(label || '500 - Does Not Apply');
+    }
+
+    function toggleMAHomeLangMode(hiddenSelector, textSelector, displaySelector) {
+        var sealofBiliteracy = ($j('#SealofBiliteracy').val() || '').toString();
+        if (sealofBiliteracy === '' || sealofBiliteracy === '0') {
+            if ($j(hiddenSelector).val() !== '500') {
+                $j(hiddenSelector).val('500');
+            }
+            renderMAHomeLangHighlight(hiddenSelector, displaySelector);
+            $j(textSelector).hide();
+            $j(displaySelector).show();
+        } else {
+            syncMAHomeLangDisplay(hiddenSelector, textSelector);
+            $j(textSelector).show();
+            $j(displaySelector).hide();
+        }
+    }
+
+    function initMAHomeLangAutocomplete(hiddenSelector, textSelector) {
+        syncMAHomeLangDisplay(hiddenSelector, textSelector);
+
+        var autoCompleteStr = 'ui-autocomplete';
+        if (parseInt($j.ui.version.split('.')[0]) === 1 && parseInt($j.ui.version.split('.')[1]) < 10) {
+            autoCompleteStr = 'autocomplete';
+        }
+
+        var widget = $j(textSelector).autocomplete({
+            minLength: 0,
+            source: buildMAHomeLangSource(),
+            select: function(event, ui) {
+                $j(hiddenSelector).val(ui.item.value).trigger('change');
+                $j(textSelector).val(ui.item.label);
+                return false;
+            }
+        });
+        widget.focus(function() {
+            $j(this).autocomplete('search', '');
+        });
+        widget.data(autoCompleteStr)._renderItem = function(ul, item) {
+            return $j('<li></li>').append('<a>' + item.label + '</a>').appendTo(ul);
+        };
+    }
+
+    function normalizeMAGradeLevel(gradeLevel) {
+        return (gradeLevel || '').toString().toUpperCase().replace(/[\s-]/g, '');
+    }
+
+    function isMAPKTo05(gradeLevel) {
+        var normalizedGradeLevel = normalizeMAGradeLevel(gradeLevel);
+        return normalizedGradeLevel === 'PK' || normalizedGradeLevel === 'P' || normalizedGradeLevel === 'K' || normalizedGradeLevel === 'KG' || normalizedGradeLevel === 'TK' || /^(0?[0-5])$/.test(normalizedGradeLevel) || normalizedGradeLevel === 'PK05';
+    }
+
+    function isMA0612(gradeLevel) {
+        var normalizedGradeLevel = normalizeMAGradeLevel(gradeLevel);
+        return normalizedGradeLevel === '06-12' || normalizedGradeLevel === '0612' || /^(0?[6-9]|1[0-2])$/.test(normalizedGradeLevel);
+    }
+     function applyDOE060InitialValue() {
+        var gradeLevel = "~([Students]Grade_Level)";
+        var myCAPParticipation = $j('#MyCAPParticipation');
+        var currentValue = (myCAPParticipation.val() || '').toString();
+
+        if (isMAPKTo05(gradeLevel)) {
+            if (currentValue === '') {
+                myCAPParticipation.val('500');
+            }
+        }
+    }
+    function validateDOE058059() {
+		var sealofBiliteracy = ($j('#SealofBiliteracy').val() || '').toString();
+        var language1 = $j('#SealofBiliteracyLanguage1');
+        var language2 = $j('#SealofBiliteracyLanguage2');
+
+        if (sealofBiliteracy === '' || sealofBiliteracy === '0') {
+            if (language1.val() !== '500') {
+                language1.val('500');
+            }
+            if (language2.val() !== '500') {
+                language2.val('500');
+            }
+        }
+        toggleMAHomeLangMode('#SealofBiliteracyLanguage1', '#SealofBiliteracyLanguage1_autocomplete', '#SealofBiliteracyLanguage1_display');
+        toggleMAHomeLangMode('#SealofBiliteracyLanguage2', '#SealofBiliteracyLanguage2_autocomplete', '#SealofBiliteracyLanguage2_display');
+    }
+
+    function validateDOE060() {
+        var doe060Feedback = $j('#DOE060Feedback');
+                doe060Feedback.hide();
+    }
+
+	$j(document).ready(function () {
+		UpdateDOE26(); //update option prior 20-21
+		InitialloadProgParticipationData();
+		DOE035_DisableDiscont();
+		initMAHomeLangAutocomplete('#SealofBiliteracyLanguage1', '#SealofBiliteracyLanguage1_autocomplete');
+        initMAHomeLangAutocomplete('#SealofBiliteracyLanguage2', '#SealofBiliteracyLanguage2_autocomplete');
+        validateDOE058059();
+        validateDOE060();
+		applyDOE060InitialValue();
+
+        $j('#SealofBiliteracy').change(function(){
+            validateDOE058059();
+        });
+
+        $j('#SealofBiliteracyLanguage1').change(function(){
+            validateDOE058059();
+        });
+
+        $j('#SealofBiliteracyLanguage2').change(function(){
+            validateDOE058059();
+        });
+
+        $j('#MyCAPParticipation').change(function(){
+            validateDOE060();
+        });
+
+        // On-Change event for HighQualCarPathwaysProgTyp
+        $j('#HighQualCarPathwaysProgTyp').change(function(){
+			if ($j('#HighQualCarPathwaysProgTyp').val() === "500") {
+					$j('#HighQualCarPathwaysProgPart').val("500");
+					$j('#DOE046Feedback').hide();
+					$j('#DOE057Feedback').hide();
+			    }
+				else {
+                        validateDOE057();
+			            validateDOE046();
+				}
+		}).change();
+
+		// On-Change event for DOE057
+		$j('#doe057').change(function(){
+			if (($j('#HighQualCarPathwaysProgTyp').val() === "01" || $j('#HighQualCarPathwaysProgTyp').val() === "04") && $j('#doe057').val() === "500") {
+				    $j('#DOE057Feedback').show();
+				}
+				else if(($j('#HighQualCarPathwaysProgTyp').val() === "01" || $j('#HighQualCarPathwaysProgTyp').val() === "04") && $j('#doe057').val() !== "500") {
+				    $j('#DOE057Feedback').hide();
+				}
+				else {
+				    $j('#DOE057Feedback').hide();
+				}
+		}).change();
+
+		// On-Change event for DOE046
+		$j('#HighQualCarPathwaysProgPart').change(function(){
+				validateDOE046();
+		}).change();
+
+	    // Validate on form submission
+        $j('#btnSubmit').click(function(event) {
+            var highQualValue = $j('#HighQualCarPathwaysProgTyp').val();
+            var doeValue = $j('#doe057').val();
+
+            if ((highQualValue === "01" || highQualValue === "04") && doeValue === "500") {
+                event.preventDefault(); // Prevent form submission
+	            $j('#DOE057Feedback').show();
+                psAlert({message:'Please scroll from the top of the page to find and correct the errors before submit.',title:'Errors On Page'});
+            }
+            if (($j('#HighQualCarPathwaysProgTyp').val() === "02" || $j('#HighQualCarPathwaysProgTyp').val() === "03" || $j('#HighQualCarPathwaysProgTyp').val() === "04") && $j('#HighQualCarPathwaysProgPart').val() === "500") {
+                event.preventDefault(); // Prevent form submission
+	            $j('#DOE046Feedback').show();
+                psAlert({message:'Please scroll from the top of the page to find and correct the errors before submit.',title:'Errors On Page'});
+            }
+        });
+
+	});
+
+	function validateDOE057()
+	{
+				if ($j('#HighQualCarPathwaysProgTyp').val() !== "01" && $j('#HighQualCarPathwaysProgTyp').val() !== "04") {
+					$j('#doe057').val("500");
+					$j('#DOE057Feedback').hide();
+			    }
+			    else if(($j('#HighQualCarPathwaysProgTyp').val() === "01" || $j('#HighQualCarPathwaysProgTyp').val() === "04") && $j('#doe057').val() === "500") {
+				    $j('#DOE057Feedback').show();
+				}
+				else if(($j('#HighQualCarPathwaysProgTyp').val() === "01" || $j('#HighQualCarPathwaysProgTyp').val() === "04") && $j('#doe057').val() !== "500") {
+				    $j('#DOE057Feedback').hide();
+				}
+				else {
+				    $j('#DOE057Feedback').hide();
+				}
+	}
+
+	function validateDOE046()
+	{
+				if (($j('#HighQualCarPathwaysProgTyp').val() === "02" || $j('#HighQualCarPathwaysProgTyp').val() === "03" || $j('#HighQualCarPathwaysProgTyp').val() === "04") && $j('#HighQualCarPathwaysProgPart').val() === "500") {
+					$j('#DOE046Feedback').show();
+			    }
+				else if (($j('#HighQualCarPathwaysProgTyp').val() === "02" || $j('#HighQualCarPathwaysProgTyp').val() === "03" || $j('#HighQualCarPathwaysProgTyp').val() === "04") && $j('#HighQualCarPathwaysProgPart').val() !== "500") {
+					$j('#DOE046Feedback').hide();
+			    }
+			    else {
+				    $j('#DOE046Feedback').hide();
+				}
+	}
 </script>
 </body>
 </html><!-- end right frame -->

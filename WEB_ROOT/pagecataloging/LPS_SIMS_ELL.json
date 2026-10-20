@@ -3,7 +3,7 @@
 	{
 	  "htmlID": "navlps_sims_ell",
 	  "title": "SIMS - EL Only",
-	  "version": "24.10.1.2",
+	  "version": "26.10.1.0",
 	  "contextType": "student",
 	  "requiredContext": "student",
 	  "sortOrder": 800,
